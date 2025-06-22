@@ -1,18 +1,63 @@
-//this is template component where it will be linked from index.justify-center
 
 <!-- src/components/SelectInstruments.vue -->
 <script setup>
 import { ref } from 'vue'
 import { Music } from 'lucide-vue-next'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
+const checkedNames = ref([])
+const route = useRoute()
 const router = useRouter()
 
-function handleContinue() {
-  router.push({ name: 'LoadingPage' })
-}
+const filename = route.query.file
 
-const checkedNames = ref([]) // Instruments selected by user
+async function handleContinue() {
+  if (!filename) {
+    alert("❌ No file information passed from previous page.")
+    return
+  }
+
+  const stemMap = {
+    "Vocal": "vocals",
+    "Drum": "drum",
+    "Bass": "bass",
+    "Electric Guitar": "electric_guitar",
+    "Acoustic Guitar": "acoustic_guitar",
+    "Piano": "piano"
+  }
+
+  const mappedStems = checkedNames.value.map(name => stemMap[name]).filter(Boolean)
+
+  if (!mappedStems.length) {
+    alert("❌ No valid stems selected.")
+    return
+  }
+
+  try {
+    const response = await fetch("http://localhost:8000/split/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        file: filename,
+        stems: mappedStems
+      })
+    })
+
+    const result = await response.json()
+
+    if (response.ok) {
+      alert("✅ Audio splitting started! Check your output folder.")
+      // Optionally navigate to a results page here
+    } else {
+      alert(`❌ Error: ${result.message}`)
+    }
+  } catch (err) {
+    console.error("❌ Split request failed:", err)
+    alert("❌ Server error occurred.")
+  }
+}
 </script>
 
 <template>
@@ -88,7 +133,6 @@ const checkedNames = ref([]) // Instruments selected by user
                     hover:from-purple-600 hover:to-pink-600 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25">
               Continue →
             </button>
-
           </div>
         </div>
       </div>

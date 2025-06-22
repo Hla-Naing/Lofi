@@ -1,3 +1,4 @@
+
 <!-- App.vue -->
 <template>
   <router-view /> <!-- 👈 This renders the component for the current route -->

@@ -70,7 +70,6 @@ const onSubmit = handleSubmit(values => {
   console.log('🎛 Validated Values:', values)
   alert('Settings saved!')
   router.push({ name: 'FinalOutput' })
-
 })
 
 </script>
