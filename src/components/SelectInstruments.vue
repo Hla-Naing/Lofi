@@ -1,15 +1,14 @@
-
-<!-- src/components/SelectInstruments.vue -->
 <script setup>
 import { ref } from 'vue'
 import { Music } from 'lucide-vue-next'
 import { useRoute, useRouter } from 'vue-router'
 
-const checkedNames = ref([])
-const route = useRoute()
-const router = useRouter()
+// Declare necessary variables and functions
+const checkedNames = ref([]) // Stores selected instruments
+const route = useRoute() // Get the route object
+const router = useRouter() // Get the router object
 
-const filename = route.query.file
+const filename = route.query.file // Get the file information from the previous route
 
 async function handleContinue() {
   if (!filename) {
@@ -33,6 +32,9 @@ async function handleContinue() {
     return
   }
 
+  // Show the loading page here
+  router.push({ name: 'LoadingPage' }) // Navigate to the loading page
+
   try {
     const response = await fetch("http://localhost:8000/split/", {
       method: "POST",
@@ -49,7 +51,8 @@ async function handleContinue() {
 
     if (response.ok) {
       alert("✅ Audio splitting started! Check your output folder.")
-      // Optionally navigate to a results page here
+      // Optionally navigate to the next page (e.g., SoundEffects)
+      router.push({ name: 'SoundEffects' })
     } else {
       alert(`❌ Error: ${result.message}`)
     }
@@ -131,7 +134,7 @@ async function handleContinue() {
               class="group relative px-10 py-3 rounded-2xl font-bold text-lg transition-all duration-300 transform
                     bg-gradient-to-r from-purple-500 to-pink-500 text-white
                     hover:from-purple-600 hover:to-pink-600 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25">
-              Continue →
+              Continue → 
             </button>
           </div>
         </div>

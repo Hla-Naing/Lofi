@@ -1,4 +1,3 @@
-<!-- src/components/SoundEffects.vue -->
 <script setup>
 import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
@@ -12,8 +11,8 @@ const schema = yup.object({
     .number()
     .typeError('Reverb must be a number')
     .required('Reverb is required')
-    .min(0, 'Reverb must be at least 0')
-    .max(100, 'Reverb must be 100 or less'),
+    .min(0.0, 'Reverb must be at least 0')
+    .max(100.0, 'Reverb must be 100 or less'),
 
   PitchShift: yup
     .number()
@@ -66,12 +65,32 @@ const { value: Gain, errorMessage: GainError } = useField('Gain')
 const { value: Speed, errorMessage: SpeedError } = useField('Speed')
 
 // Handle submit
-const onSubmit = handleSubmit(values => {
+const onSubmit = handleSubmit(async (values) => {
   console.log('🎛 Validated Values:', values)
-  alert('Settings saved!')
-  router.push({ name: 'FinalOutput' })
-})
+  try {
+    // Send data to backend to apply effects
+    const response = await fetch('http://localhost:8000/process-effects', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values), // Send the validated form values
+    });
 
+    const result = await response.json();
+    
+    if (result.status === 'success') {
+      // Redirect to FinalOutput page if successful
+      router.push({ name: 'FinalOutput', query: { output_file: result.output_file } });
+    } else {
+      // If there's an error, show it to the user
+      alert(`❌ Error: ${result.message}`);
+    }
+  } catch (err) {
+    console.error('Error processing effect:', err);
+    alert('❌ Failed to apply sound effects. Please try again.');
+  }
+})
 </script>
 
 <template>
@@ -82,53 +101,51 @@ const onSubmit = handleSubmit(values => {
       <!-- Field: Reverb -->
       <div>
         <label class="block mb-1 font-medium">Reverb</label>
-        <input v-model="Reverb" type="text" class="w-full p-3 rounded-md bg-white/10 text-white border border-white/20 focus:ring-2 focus:ring-purple-400" />
+        <input v-model.number="Reverb" type="number" step="0.1" class="w-full p-3 rounded-md bg-white/10 text-white border border-white/20 focus:ring-2 focus:ring-purple-400" />
         <p class="text-red-400 text-sm mt-1">{{ ReverbError }}</p>
       </div>
 
       <!-- Field: PitchShift -->
       <div>
         <label class="block mb-1 font-medium">PitchShift</label>
-        <input v-model="PitchShift" type="text" class="w-full p-3 rounded-md bg-white/10 text-white border border-white/20 focus:ring-2 focus:ring-purple-400" />
+        <input v-model.number="PitchShift" type="number" class="w-full p-3 rounded-md bg-white/10 text-white border border-white/20 focus:ring-2 focus:ring-purple-400" />
         <p class="text-red-400 text-sm mt-1">{{ PitchShiftError }}</p>
       </div>
 
       <!-- Field: LowpassFilter -->
       <div>
         <label class="block mb-1 font-medium">LowpassFilter</label>
-        <input v-model="LowpassFilter" type="text" class="w-full p-3 rounded-md bg-white/10 text-white border border-white/20 focus:ring-2 focus:ring-purple-400" />
+        <input v-model.number="LowpassFilter" type="number" class="w-full p-3 rounded-md bg-white/10 text-white border border-white/20 focus:ring-2 focus:ring-purple-400" />
         <p class="text-red-400 text-sm mt-1">{{ LowpassError }}</p>
       </div>
 
       <!-- Field: Distortion -->
       <div>
         <label class="block mb-1 font-medium">Distortion</label>
-        <input v-model="Distortion" type="text" class="w-full p-3 rounded-md bg-white/10 text-white border border-white/20 focus:ring-2 focus:ring-purple-400" />
+        <input v-model.number="Distortion" type="number" class="w-full p-3 rounded-md bg-white/10 text-white border border-white/20 focus:ring-2 focus:ring-purple-400" />
         <p class="text-red-400 text-sm mt-1">{{ DistortionError }}</p>
       </div>
 
       <!-- Field: Gain -->
       <div>
         <label class="block mb-1 font-medium">Gain</label>
-        <input v-model="Gain" type="text" class="w-full p-3 rounded-md bg-white/10 text-white border border-white/20 focus:ring-2 focus:ring-purple-400" />
+        <input v-model.number="Gain" type="number" class="w-full p-3 rounded-md bg-white/10 text-white border border-white/20 focus:ring-2 focus:ring-purple-400" />
         <p class="text-red-400 text-sm mt-1">{{ GainError }}</p>
       </div>
 
       <!-- Field: Speed -->
       <div>
         <label class="block mb-1 font-medium">Speed</label>
-        <input v-model="Speed" type="text" class="w-full p-3 rounded-md bg-white/10 text-white border border-white/20 focus:ring-2 focus:ring-purple-400" />
+        <input v-model.number="Speed" type="number" class="w-full p-3 rounded-md bg-white/10 text-white border border-white/20 focus:ring-2 focus:ring-purple-400" />
         <p class="text-red-400 text-sm mt-1">{{ SpeedError }}</p>
       </div>
 
       <!-- Submit Button -->
       <div class="text-center pt-4">
         <button type="submit" :disabled="!meta.valid" class="w-full py-3 rounded-xl font-bold text-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-300  disabled:opacity-40 disabled:cursor-not-allowed">
-          Save & Continue →
+          Save & Continue → 
         </button>
-
       </div>
     </form>
   </div>
 </template>
-
