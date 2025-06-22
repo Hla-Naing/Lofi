@@ -27,7 +27,7 @@ Sound Box is a web application that lets users upload or paste a link to a song,
 ---
 
 ## Screenshots
-<img width="1292" alt="image" src="https://github.com/user-attachments/assets/01800564-6269-4123-9fb7-9fb217de7a7c" />
+![image](https://github.com/user-attachments/assets/1a51a6b6-dfb7-4c52-89ce-46c8b2b37484)
 ![image](https://github.com/user-attachments/assets/94d3ff44-1c88-4e53-965e-0b65eab61c98)
 ![image](https://github.com/user-attachments/assets/0e09f063-3af7-46ff-9b24-31b6e7f2f51b)
 ![image](https://github.com/user-attachments/assets/4d3f48bc-92a4-4cb3-bf50-31f6d90009e5)
