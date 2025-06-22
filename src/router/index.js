@@ -8,10 +8,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 // Import views/components that represent pages
 import HomePage from '../components/Homepage.vue' // Home page component
 import SelectInstruments from '../components/SelectInstruments.vue' // New component for selecting instruments
+import SoundEffects from '../components/SoundEffects.vue'
 
 const routes = [
   { path: '/', component: HomePage }, // Home route
-  { path: '/select-instruments', name: 'SelectInstruments', component: SelectInstruments } // New route
+  { path: '/select-instruments', name: 'SelectInstruments', component: SelectInstruments }, // New route
+  { path: '/sound-effects', name: 'SoundEffects', component: SoundEffects } // Lazy-loaded sound effects component
 ]
 
 const router = createRouter({

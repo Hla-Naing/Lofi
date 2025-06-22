@@ -4,7 +4,16 @@
 <script setup>
 import { ref } from 'vue'
 import { Music } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
+// Function to handle form submission
+function handleContinue() {
+  alert(`Proceeding with: ${checkedNames.value.join(', ')}`)
+  router.push({ name: 'SoundEffects' }) // ✅ match route name exactly
+}
+
+// Array of instrument names
 const checkedNames = ref([]) // Instruments selected by user
 </script>
 
