@@ -26,7 +26,7 @@ Sound Box is a web application that lets users upload or paste a link to a song,
 
 ---
 
-##Screenshots
+## Screenshots
 <img width="1292" alt="image" src="https://github.com/user-attachments/assets/01800564-6269-4123-9fb7-9fb217de7a7c" />
 ![image](https://github.com/user-attachments/assets/94d3ff44-1c88-4e53-965e-0b65eab61c98)
 ![image](https://github.com/user-attachments/assets/0e09f063-3af7-46ff-9b24-31b6e7f2f51b)
@@ -40,7 +40,7 @@ We love music, and we’ve always wanted a tool that made it easy to manipulate 
 
 ---
 
-##How We Built It
+## How We Built It
 
 1. **Frontend**: Built with Vue 3 and styled with Tailwind CSS for clean, modern visuals.
 2. **Stem Splitting**: Used LALAL.AI’s API to handle professional-grade stem separation.
@@ -51,7 +51,7 @@ We love music, and we’ve always wanted a tool that made it easy to manipulate 
 
 ---
 
-##Challenges We Faced
+## Challenges We Faced
 
 - Setting up cross-origin communication between frontend and backend on different systems (Mac vs. Windows).
 - Managing real-time feedback while processing heavy audio tasks.
@@ -60,7 +60,7 @@ We love music, and we’ve always wanted a tool that made it easy to manipulate 
 
 ---
 
-##Accomplishments
+## Accomplishments
 
 - Fully working multi-step app with audio processing and final output.
 - Designed a sleek UI from scratch with animated transitions and effects.
