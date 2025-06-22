@@ -45,15 +45,37 @@ function clearUrl() {
   youtubeUrl.value = ''
 }
 
-function convertToLofi() {
+async function convertToLofi() {
+  const formData = new FormData()
+
   if (file.value) {
-    alert(`Converting uploaded file: ${file.value.name} to lofi...`)
-    router.push({ name: 'SelectInstruments' })
+    formData.append("file", file.value)
   } else if (youtubeUrl.value.trim()) {
-    alert(`Converting YouTube link: ${youtubeUrl.value.trim()} to lofi...`)
-    router.push({ name: 'SelectInstruments' })
+    formData.append("youtube_url", youtubeUrl.value.trim())
   } else {
-    alert('Please upload a file or paste a YouTube URL.')
+    alert("Please upload a file or paste a YouTube URL.")
+    return
+  }
+
+  try {
+    const response = await fetch("http://localhost:8000/convert/", {
+      method: "POST",
+      body: formData,
+    })
+
+    const result = await response.json()
+
+    if (response.ok) {
+      router.push({
+        name: "select-instruments",
+        query: { file: result.filename }
+      })
+    } else {
+      alert(`❌ Error: ${result.message}`)
+    }
+  } catch (error) {
+    console.error("Request failed:", error)
+    alert("🚨 Something went wrong while contacting the server.")
   }
 }
 
