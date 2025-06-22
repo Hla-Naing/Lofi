@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import './style.css'
-import App from '/Users/hlathirinaing/CS/GitHub/Lofi/src/App.vue'
+import App from './App.vue'
+import router from './router' // 👈 importing our router setup
 
-createApp(App).mount('#app')
+createApp(App).use(router).mount('#app') // 👈 enable routing in the app
