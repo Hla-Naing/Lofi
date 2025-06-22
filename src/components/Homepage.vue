@@ -79,11 +79,8 @@ async function convertToLofi() {
   }
 }
 
-function handleContinue() {
-  alert(`Proceeding with: ${checkedNames.value.join(', ')}`)
-  // Example: router.push('/final-step') or save to localStorage
-}
 
+  // Example: router.push('/final-step') or save to localStorage
 
 // function convertToLofi() {
 //   if (file.value || youtubeUrl.value.trim()) {

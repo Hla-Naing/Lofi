@@ -57,6 +57,7 @@ async function handleContinue() {
     alert("❌ Server error occurred.")
   }
 }
+
 </script>
 
 <template>
