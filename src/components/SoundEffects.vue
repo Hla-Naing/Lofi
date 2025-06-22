@@ -2,6 +2,9 @@
 <script setup>
 import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // Define validation schema
 const schema = yup.object({
@@ -66,6 +69,7 @@ const { value: Speed, errorMessage: SpeedError } = useField('Speed')
 const onSubmit = handleSubmit(values => {
   console.log('🎛 Validated Values:', values)
   alert('Settings saved!')
+  router.push({ name: 'FinalOutput' })
 })
 
 </script>
@@ -119,7 +123,7 @@ const onSubmit = handleSubmit(values => {
 
       <!-- Submit Button -->
       <div class="text-center pt-4">
-        <button type="submit" :disabled="!meta.valid" class="w-full py-3 rounded-xl font-bold text-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-300  disabled:opacity-40 disabled:cursor-not-allowed"">
+        <button type="submit" :disabled="!meta.valid" class="w-full py-3 rounded-xl font-bold text-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-300  disabled:opacity-40 disabled:cursor-not-allowed">
           Save & Continue →
         </button>
 

@@ -1,3 +1,4 @@
+
 <!-- src/components/SelectInstruments.vue -->
 <script setup>
 import { ref } from 'vue'
@@ -57,7 +58,6 @@ async function handleContinue() {
     alert("❌ Server error occurred.")
   }
 }
-
 </script>
 
 <template>
@@ -126,20 +126,12 @@ async function handleContinue() {
           <!-- Aligned Continue Button -->
           <div class="flex justify-center">
             <button
-              class="group relative px-10 py-3 rounded-2xl font-bold text-lg transition-all duration-300 transform
-                     bg-gradient-to-r from-purple-500 to-pink-500 text-white
-                     hover:from-purple-600 hover:to-pink-600 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25"
-              :disabled="!checkedNames.length"
-              :class="{
-                'opacity-50 cursor-not-allowed': !checkedNames.length
-              }"
               @click="handleContinue"
-            >
+              :disabled="!checkedNames.length"
+              class="group relative px-10 py-3 rounded-2xl font-bold text-lg transition-all duration-300 transform
+                    bg-gradient-to-r from-purple-500 to-pink-500 text-white
+                    hover:from-purple-600 hover:to-pink-600 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25">
               Continue →
-              <div
-                v-if="checkedNames.length"
-                class="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
-              ></div>
             </button>
           </div>
         </div>

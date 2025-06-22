@@ -82,6 +82,7 @@ async function convertToLofi() {
 
   // Example: router.push('/final-step') or save to localStorage
 
+
 // function convertToLofi() {
 //   if (file.value || youtubeUrl.value.trim()) {
 //     // ✅ Optional: Save file/youtubeUrl to localStorage or Pinia for later use
