@@ -46,33 +46,36 @@ function clearUrl() {
 }
 
 async function convertToLofi() {
-  const formData = new FormData();
+  const formData = new FormData()
 
   if (file.value) {
-    formData.append("file", file.value);
+    formData.append("file", file.value)
   } else if (youtubeUrl.value.trim()) {
-    formData.append("youtube_url", youtubeUrl.value.trim());
+    formData.append("youtube_url", youtubeUrl.value.trim())
   } else {
-    alert("Please upload a file or paste a YouTube URL.");
-    return;
+    alert("Please upload a file or paste a YouTube URL.")
+    return
   }
 
   try {
     const response = await fetch("http://localhost:8000/convert/", {
       method: "POST",
       body: formData,
-    });
+    })
 
-    const result = await response.json();
+    const result = await response.json()
 
     if (response.ok) {
-      alert(`✅ ${result.filename} is ready!`);
+      router.push({
+        name: "select-instruments",
+        query: { file: result.filename }
+      })
     } else {
-      alert(`❌ Error: ${result.message}`);
+      alert(`❌ Error: ${result.message}`)
     }
   } catch (error) {
-    console.error("Request failed:", error);
-    alert("🚨 Something went wrong while contacting the server.");
+    console.error("Request failed:", error)
+    alert("🚨 Something went wrong while contacting the server.")
   }
 }
 

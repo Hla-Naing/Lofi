@@ -1,10 +1,16 @@
 import os
+import shutil
+import yt_dlp
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional
-import yt_dlp
-import shutil
+from typing import Optional, List
+from pydantic import BaseModel
+from merge_and_cleanup import merge_and_cleanup
+
+
+# Import the splitting logic from lalal_split.py
+from lalal_split import split_file_with_lalal
 
 app = FastAPI()
 
@@ -21,6 +27,10 @@ app.add_middleware(
 DOWNLOAD_DIR = "downloads"
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
+# Model for split request
+class SplitRequest(BaseModel):
+    file: str
+    stems: List[str]
 
 @app.post("/convert/")
 async def convert_audio(
@@ -63,3 +73,33 @@ async def convert_audio(
 
     else:
         return JSONResponse({"status": "error", "message": "No input provided"}, status_code=400)
+
+@app.get("/split/{id}")
+async def debug_unexpected_get(id: str):
+    print(f"⚠️ Unexpected GET request to /split/{id}")
+    return JSONResponse(
+        {"status": "error", "message": f"GET /split/{id} is not allowed."},
+        status_code=405
+    )
+
+@app.post("/split/")
+async def split_audio(data: SplitRequest):
+    try:
+        file_path = os.path.join(DOWNLOAD_DIR, data.file)
+        if not os.path.exists(file_path):
+            return JSONResponse({"status": "error", "message": "File not found"}, status_code=404)
+
+        result = split_file_with_lalal(file_path, data.stems)
+
+        if result.get("status") == "ok":
+            try:
+                merged_path = merge_and_cleanup("split")
+                result["merged"] = merged_path
+            except Exception as e:
+                result["merged"] = None
+                print(f"⚠️ Merge failed: {e}")
+
+        return JSONResponse(result)
+
+    except Exception as e:
+        return JSONResponse({"status": "error", "message": str(e)}, status_code=500)
