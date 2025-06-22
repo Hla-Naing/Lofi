@@ -1,4 +1,3 @@
-![image](https://github.com/user-attachments/assets/b0feb0a1-f328-4641-a884-38403851a3f3)#Sound Editor
 
 > **Customize any song your way — isolate stems, fine-tune effects, and create your own unique sound.**
 
